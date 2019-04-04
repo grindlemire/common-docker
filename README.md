@@ -1,4 +1,4 @@
-# common-docker
+# docker-modules
 A bunch of different docker-compose instances that standup common dependencies I work with.
 
 # Packages
