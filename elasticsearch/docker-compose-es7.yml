@@ -1,0 +1,43 @@
+
+version: '3.6'
+services:
+  es7:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.2
+    container_name: es7
+    volumes:
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - es
+  kb7:
+    image: docker.elastic.co/kibana/kibana:7.3.2
+    container_name: kb7
+    volumes:
+      - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+    ports:
+      - "5601:5601"
+    networks:
+      - es
+    depends_on:
+      - es7
+  auditbeat7:
+    image: docker.elastic.co/beats/auditbeat:7.3.2
+    container_name: auditbeat7
+    volumes:
+      - ./auditbeat/auditbeat.yml:/usr/share/auditbeat/auditbeat.yml:ro
+    depends_on:
+      - es7
+    command: auditbeat -e -strict.perms=false
+    cap_add: 
+      - 'AUDIT_CONTROL'
+      - 'AUDIT_READ'
+    pid: host
+    networks: 
+      - es
+networks:
+  es:
+    driver: bridge
