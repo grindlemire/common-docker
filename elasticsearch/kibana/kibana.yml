@@ -4,4 +4,5 @@
 #
 server.name: kibana
 server.host: "0"
-elasticsearch.url: http://es6:9200
+elasticsearch.hosts: http://es6:9200
+logging.events.log: ['warning', 'error', 'fatal', 'info', 'reporting']
