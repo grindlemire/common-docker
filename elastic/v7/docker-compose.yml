@@ -1,8 +1,8 @@
-version: '3.6'
+version: "3.6"
 services:
-  es6:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.7.0
-    container_name: es6
+  es7:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+    container_name: es7
     volumes:
       - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     ports:
@@ -12,9 +12,9 @@ services:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
       - es
-  kb6:
-    image: docker.elastic.co/kibana/kibana:6.7.0
-    container_name: kb6
+  kb7:
+    image: docker.elastic.co/kibana/kibana:7.5.1
+    container_name: kb7
     volumes:
       - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     ports:
@@ -22,7 +22,7 @@ services:
     networks:
       - es
     depends_on:
-      - es6
+      - es7
 networks:
   es:
     driver: bridge
